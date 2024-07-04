@@ -9,7 +9,7 @@ function updateImageInYAML(filePath, updates) {
     const yamlData = yaml.load(fileContents);
     console.log(`Loaded YAML file: ${yamlData}`)
     if (yamlData && typeof yamlData === 'object') {
-      updateNestedImage(yamlData, updates);
+      updateNestedObject(yamlData, updates);
       console.log(`Updated YAML data: ${yamlData}`);
       const updatedYAML = yaml.dump(yamlData);
       console.log(`Updated YAML: ${updatedYAML}`);
@@ -24,21 +24,34 @@ function updateImageInYAML(filePath, updates) {
   }
 }
 
-function updateNestedImage(yamlData, updates) {
-  Object.keys(updates).forEach((key) => {
-    console.log(`Updating key: ${key}`);
-    const path = key.split('.');
-    console.log(`Path: ${path}`);
-    let dataToUpdate = path.reduce((acc, key) => acc[key], yamlData);
-    console.log(`Data to update: ${dataToUpdate}`);
-    if (is_scanable(dataToUpdate)) {
-      dataToUpdate = updates[key];
-    }
-  })
-}
+function updateNestedObject(originalJson, updateJson) {
+  for (const keyPath in updateJson) {
+    console.log('Current key path:', keyPath);
+    const keys = keyPath.split('.');
+    console.log('Split keys:', keys);
+    let nestedObject = originalJson;
 
-function is_scanable(yamlData) {
-  return typeof yamlData === "object" && yamlData != null;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      console.log('Current key:', key);
+
+      if (!nestedObject.hasOwnProperty(key)) {
+        console.log('Key not found:', key);
+        if (i === keys.length - 1) {
+          console.log('Adding missing key:', key);
+          nestedObject[key] = updateJson[keyPath]; // Add the missing key with the updated value
+        } else {
+          console.log('Creating new nested object for key:', key);
+          nestedObject[key] = {}; // Create a new nested object
+        }
+      }
+
+      if (i !== keys.length - 1) {
+        console.log('Traversing deeper into key:', key);
+        nestedObject = nestedObject[key]; // Traverse deeper into the nested structure
+      }
+    }
+  }
 }
 
 
