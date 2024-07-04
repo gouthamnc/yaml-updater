@@ -7,7 +7,7 @@ const { exit } = require("process");
 function getInputs() {
   const targetPath = core.getInput("target-path");
   const filePaths = core.getInput("file-paths");
-  const changes = JSON.parse(core.getInput("changes");
+  const changes = JSON.parse(core.getInput("changes"));
   return {
     targetPath, filePaths, changes
   };
