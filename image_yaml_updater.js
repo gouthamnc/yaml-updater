@@ -25,11 +25,11 @@ function updateImageInYAML(filePath, updates) {
 }
 
 function updateNestedImage(yamlData, updates) {
-  Object, keys(updates).forEach((key) => {
+  Object.keys(updates).forEach((key) => {
     console.log(`Updating key: ${key}`);
     const path = key.split('.');
     console.log(`Path: ${path}`);
-    const dataToUpdate = path.reduce((acc, key) => acc[key], yamlData);
+    let dataToUpdate = path.reduce((acc, key) => acc[key], yamlData);
     console.log(`Data to update: ${dataToUpdate}`);
     if (is_scanable(dataToUpdate)) {
       dataToUpdate = updates[key];
@@ -38,7 +38,7 @@ function updateNestedImage(yamlData, updates) {
 }
 
 function is_scanable(yamlData) {
-  return typeof yamlData === "object" && yamlData != null ? true : false;
+  return typeof yamlData === "object" && yamlData != null;
 }
 
 
