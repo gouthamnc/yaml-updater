@@ -2,7 +2,9 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 
 function updateImageInYAML(filePath, updates) {
+  console.log(`Updating YAML file: ${filePath}`);
   const fileContents = fs.readFileSync(filePath, 'utf8');
+  console.log(`Read YAML file: ${fileContents}`);
   try {
     const yamlData = yaml.load(fileContents);
     console.log(`Loaded YAML file: ${yamlData}`)

@@ -31,8 +31,9 @@ function setOutputs(dispatchedPayload, success) {
 //  }
 
 function updateYamls(filePaths, changes) {
+  console.log("Updating YAML files");
   for (var filePath of filePaths) {
-    console.log(filePath);
+    console.log(`Updating file: ${filePath}`);
     updateImageInYAML(filePath, changes);
   }
 }
