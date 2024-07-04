@@ -6,10 +6,10 @@ const { exit } = require("process");
 
 function getInputs() {
   const targetPath = core.getInput("target-path");
-  const dispatchedPayload = core.getInput("dispatched-payload");
+  const filePaths = core.getInput("file-paths");
+  const changes = core.getInput("changes");
   return {
-    targetPath,
-    dispatchedPayload,
+    targetPath, filePaths, changes
   };
 }
 
@@ -41,7 +41,7 @@ async function main() {
   console.log(inputs);
   const yaml_root_dir = inputs.targetPath;
 
-  var filePaths = inputs["file-paths"];
+  var filePaths = inputs.filePaths;
   if (filePaths) {
     const filePathsArray = filePaths.split(',');
     actualFilePaths = filePathsArray.map((filePath) => path.join(yaml_root_dir, filePath));
