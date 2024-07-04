@@ -40,10 +40,8 @@ async function main() {
   const inputs = getInputs();
   console.log(inputs);
   const yaml_root_dir = inputs.targetPath;
-  const dispatchedPayload = JSON.parse(inputs.dispatchedPayload);
-  console.log(dispatchedPayload);
 
-  var filePaths = dispatchedPayload["file-paths"];
+  var filePaths = inputs["file-paths"];
   if (filePaths) {
     const filePathsArray = filePaths.split(',');
     actualFilePaths = filePathsArray.map((filePath) => path.join(yaml_root_dir, filePath));
@@ -52,10 +50,10 @@ async function main() {
     exit(1);
   }
 
-  console.log("Data to be updated: " + JSON.stringify(dispatchedPayload.changes));
+  console.log("Data to be updated: " + JSON.stringify(inputs.changes));
 
-  updateYamls(filePaths, dispatchedPayload.changes);
-  setOutputs(dispatchedPayload, true)
+  updateYamls(filePaths, inputs.changes);
+  setOutputs(inputs, true)
 }
 
 main();
