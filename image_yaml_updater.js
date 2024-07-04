@@ -5,6 +5,7 @@ function updateImageInYAML(filePath, dispatchedKey, dispatchedEvent) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   try {
     const yamlData = yaml.load(fileContents);
+    console.log(`Loaded YAML file: ${yamlData}`)
     if (yamlData && typeof yamlData === 'object') {
       updateNestedImage(yamlData, dispatchedKey, dispatchedEvent);
       const updatedYAML = yaml.dump(yamlData);
@@ -19,12 +20,12 @@ function updateImageInYAML(filePath, dispatchedKey, dispatchedEvent) {
   }
 }
 
-function updateNestedImage(yamlData, dispatchedKey, dispatchedEvent) {  
+function updateNestedImage(yamlData, dispatchedKey, dispatchedEvent) {
   if (is_scanable(yamlData[dispatchedKey]) && has_image(yamlData[dispatchedKey])) {
     updateImageValues(yamlData[dispatchedKey].image, dispatchedEvent);
   }
   Object.keys(yamlData).forEach((key) => {
-    // need to evaluate if yamlData[key] is_scanable otherwise it will iterate over primitive types ... 
+    // need to evaluate if yamlData[key] is_scanable otherwise it will iterate over primitive types ...
     if (is_scanable(yamlData[key])) {
       updateNestedImage(yamlData[key], dispatchedKey, dispatchedEvent);
     }
