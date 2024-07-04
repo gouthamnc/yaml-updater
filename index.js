@@ -13,11 +13,8 @@ function getInputs() {
   };
 }
 
-function setOutputs(dispatchedPayload, success) {
+function setOutputs(success) {
   core.setOutput("success", success);
-  core.setOutput("updated-services", Object.keys(dispatchedPayload.images).join(', '));
-  core.setOutput("updated-by-commit", dispatchedPayload["commit-sha"]);
-  core.setOutput("updated-by-repo", dispatchedPayload["repo"]);
   // to open a random branch ... for the automated pr
   core.setOutput("branch-suffix", Math.random().toString(36).substring(7));
 }
@@ -55,7 +52,7 @@ async function main() {
   console.log("Data to be updated: " + JSON.stringify(inputs.changes));
 
   updateYamls(actualFilePaths, inputs.changes);
-  setOutputs(inputs, true)
+  setOutputs( true)
 }
 
 main();
