@@ -1,7 +1,6 @@
 const core = require("@actions/core");
-const glob = require('glob');
 const path = require('path');
-const updateImageInYAML = require('./image_yaml_updater');
+const updateDataInYaml = require('./image_yaml_updater');
 const { exit } = require("process");
 
 function getInputs() {
@@ -28,10 +27,8 @@ function setOutputs(success) {
 //  }
 
 function updateYamls(filePaths, changes) {
-  console.log("Updating YAML files");
   for (var filePath of filePaths) {
-    console.log(`Updating file: ${filePath}`);
-    updateImageInYAML(filePath, changes);
+    updateDataInYaml(filePath, changes);
   }
 }
 

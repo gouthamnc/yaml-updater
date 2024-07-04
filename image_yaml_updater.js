@@ -1,20 +1,14 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-function updateImageInYAML(filePath, updates) {
-  console.log(`Updating YAML file: ${filePath}`);
+function updateDataInYaml(filePath, updates) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
-  console.log(`Read YAML file: ${fileContents}`);
   try {
     const yamlData = yaml.load(fileContents);
-    console.log(`Loaded YAML file: ${yamlData}`)
     if (yamlData && typeof yamlData === 'object') {
       updateNestedObject(yamlData, updates);
-      console.log(`Updated YAML data: `, yamlData);
       const updatedYAML = yaml.dump(yamlData);
-      console.log(`Updated YAML: ${updatedYAML}`);
       fs.writeFileSync(filePath, updatedYAML, 'utf8');
-      console.log(`Updated YAML file: ${filePath}`);
     } else {
       console.error('Invalid YAML structure. Root should be an object.');
     }
@@ -42,11 +36,10 @@ function updateNestedObject(originalJson, updateJson) {
       }
     }
   }
-  console.log('Updated nested object:', originalJson);
 }
 
 
-module.exports = updateImageInYAML;
+module.exports = updateDataInYaml;
 
 // Example usage
 // const filePath = 'test-yamls/values.yaml';
