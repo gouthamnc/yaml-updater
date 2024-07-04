@@ -54,7 +54,7 @@ async function main() {
 
   console.log("Data to be updated: " + JSON.stringify(inputs.changes));
 
-  updateYamls(filePaths, inputs.changes);
+  updateYamls(actualFilePaths, inputs.changes);
   setOutputs(inputs, true)
 }
 
