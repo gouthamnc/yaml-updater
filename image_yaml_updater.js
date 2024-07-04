@@ -1,13 +1,13 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-function updateImageInYAML(filePath, dispatchedKey, dispatchedEvent) {
+function updateImageInYAML(filePath, updates) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   try {
     const yamlData = yaml.load(fileContents);
     console.log(`Loaded YAML file: ${yamlData}`)
     if (yamlData && typeof yamlData === 'object') {
-      updateNestedImage(yamlData, dispatchedKey, dispatchedEvent);
+      updateNestedImage(yamlData, updates);
       const updatedYAML = yaml.dump(yamlData);
       fs.writeFileSync(filePath, updatedYAML, 'utf8');
       console.log(`Updated YAML file: ${filePath}`);
@@ -20,40 +20,18 @@ function updateImageInYAML(filePath, dispatchedKey, dispatchedEvent) {
   }
 }
 
-function updateNestedImage(yamlData, dispatchedKey, dispatchedEvent) {
-  if (is_scanable(yamlData[dispatchedKey]) && has_image(yamlData[dispatchedKey])) {
-    updateImageValues(yamlData[dispatchedKey].image, dispatchedEvent);
-  }
-  Object.keys(yamlData).forEach((key) => {
-    // need to evaluate if yamlData[key] is_scanable otherwise it will iterate over primitive types ...
-    if (is_scanable(yamlData[key])) {
-      updateNestedImage(yamlData[key], dispatchedKey, dispatchedEvent);
+function updateNestedImage(yamlData, updates) {
+  Object, keys(updates).forEach((key) => {
+    const path = key.split('.');
+    const dataToUpdate = path.reduce((acc, key) => acc[key], yamlData);
+    if (is_scanable(dataToUpdate)) {
+      dataToUpdate = updates[key];
     }
-  });
+  })
 }
 
 function is_scanable(yamlData) {
   return typeof yamlData === "object" && yamlData != null ? true : false;
-}
-
-function has_image(yamlData) {
-  return yamlData.image ? true : false;
-}
-
-function updateImageValues(image, dispatchedEvent) {
-  if (dispatchedEvent.registry && image.registry) {
-    image.registry = dispatchedEvent.registry;
-  }
-  if (dispatchedEvent.repository && image.repository) {
-    image.repository = dispatchedEvent.repository;
-  }
-  if (dispatchedEvent.tag) {
-    if (image.tag) {
-      image.tag = dispatchedEvent.tag;
-    } else if (image.version) {
-      image.version = dispatchedEvent.tag;
-    }
-  }
 }
 
 

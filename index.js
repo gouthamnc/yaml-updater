@@ -7,7 +7,7 @@ const { exit } = require("process");
 function getInputs() {
   const targetPath = core.getInput("target-path");
   const filePaths = core.getInput("file-paths");
-  const changes = core.getInput("changes");
+  const changes = JSON.parse(core.getInput("changes");
   return {
     targetPath, filePaths, changes
   };
@@ -32,7 +32,8 @@ function setOutputs(dispatchedPayload, success) {
 
 function updateYamls(filePaths, changes) {
   for (var filePath of filePaths) {
-    updateImageInYAML(filePath, '', '');
+    console.log(filePath);
+    updateImageInYAML(filePath, changes);
   }
 }
 
