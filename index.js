@@ -38,6 +38,7 @@ function updateYamls(filePaths, changes) {
 
 async function main() {
   const inputs = getInputs();
+  console.log(inputs);
   const yaml_root_dir = inputs.targetPath;
   const dispatchedPayload = JSON.parse(inputs.dispatchedPayload);
   console.log(dispatchedPayload);
