@@ -26,28 +26,18 @@ function updateImageInYAML(filePath, updates) {
 
 function updateNestedObject(originalJson, updateJson) {
   for (const keyPath in updateJson) {
-    console.log('Current key path:', keyPath);
     const keys = keyPath.split('.');
-    console.log('Split keys:', keys);
     let nestedObject = originalJson;
 
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
-      console.log('Current key:', key);
 
-      if (!nestedObject.hasOwnProperty(key)) {
-        console.log('Key not found:', key);
-        if (i === keys.length - 1) {
-          console.log('Adding missing key:', key);
-          nestedObject[key] = updateJson[keyPath]; // Add the missing key with the updated value
-        } else {
-          console.log('Creating new nested object for key:', key);
-          nestedObject[key] = {}; // Create a new nested object
+      if (i === keys.length - 1) {
+        nestedObject[key] = updateJson[keyPath]; // Update the value when reaching the final key in the path
+      } else {
+        if (!nestedObject[key]) {
+          nestedObject[key] = {}; // Create a new nested object if the key does not exist
         }
-      }
-
-      if (i !== keys.length - 1) {
-        console.log('Traversing deeper into key:', key);
         nestedObject = nestedObject[key]; // Traverse deeper into the nested structure
       }
     }
