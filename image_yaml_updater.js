@@ -8,7 +8,9 @@ function updateImageInYAML(filePath, updates) {
     console.log(`Loaded YAML file: ${yamlData}`)
     if (yamlData && typeof yamlData === 'object') {
       updateNestedImage(yamlData, updates);
+      console.log(`Updated YAML data: ${yamlData}`);
       const updatedYAML = yaml.dump(yamlData);
+      console.log(`Updated YAML: ${updatedYAML}`);
       fs.writeFileSync(filePath, updatedYAML, 'utf8');
       console.log(`Updated YAML file: ${filePath}`);
     } else {
